@@ -1,11 +1,13 @@
 package com.loca.addressbook.userinterface;
 
 import com.loca.addressbook.Application;
+import com.loca.addressbook.exceptions.InvalidCommandParameterException;
 import com.loca.addressbook.registry.Registry;
 import com.loca.addressbook.remoteregistry.RemoteRegistry;
 import com.loca.addressbook.userinterface.commands.*;
 import com.loca.addressbook.exceptions.InvalidCommandException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandInterpreter {
@@ -22,11 +24,23 @@ public class CommandInterpreter {
         this.application = application;
     }
 
-    public Command interpret(CommandLine commandLine) throws InvalidCommandException {
+    public Command interpret(CommandLine commandLine) throws InvalidCommandException, InvalidCommandParameterException {
         CommandType commandType = findCommandType(commandLine.getCommand());
+
+        if (validate(commandType, commandLine.getParameters())){
         Command command = createCommand(commandType, commandLine.getParameters());
         return command;
+
+        }
+        return null;
+
 	}
+	private boolean validate(CommandType commandType, List<String> parameters) throws InvalidCommandParameterException {
+        if ( commandType.getParametersCount() == parameters.size()){
+            return true;}
+        else
+            throw new InvalidCommandParameterException(commandType, parameters);
+    }
 
     private CommandType findCommandType(String command) throws InvalidCommandException {
 	    CommandType inputCommandType = null;
@@ -43,30 +57,35 @@ public class CommandInterpreter {
     }
 
     private Command createCommand(CommandType commandType, List<String> parameters) {
-	    Command command = null;
-	    switch (commandType) {
-            case ADD:
-                command = new AddContactCommand(consolePrinter, registry, parameters);
-                break;
-            case LIST:
-                command = new ListCommand(consolePrinter, registry, remoteRegistry, parameters);
-                break;
-            case DELETE:
-                command = new DeleteContactCommand(consolePrinter, registry, parameters);
-                break;
-            case HELP:
-                command = new HelpCommand(consolePrinter, parameters);
-                break;
-            case SEARCH:
-                command = new SearchCommand(consolePrinter, registry, remoteRegistry, parameters);
-                break;
-            case QUIT:
-                command = new QuitCommand(consolePrinter, parameters, application);
-                break;
+        Command command = null;
+
+
+
+            switch (commandType) {
+                case ADD:
+                    command = new AddContactCommand(consolePrinter, registry, parameters);
+                    break;
+                case LIST:
+                    command = new ListCommand(consolePrinter, registry, remoteRegistry, parameters);
+                    break;
+                case DELETE:
+                    command = new DeleteContactCommand(consolePrinter, registry, parameters);
+                    break;
+                case HELP:
+                    command = new HelpCommand(consolePrinter, parameters);
+                    break;
+                case SEARCH:
+                    command = new SearchCommand(consolePrinter, registry, remoteRegistry, parameters);
+                    break;
+                case QUIT:
+                    command = new QuitCommand(consolePrinter, parameters, application);
+                    break;
+            }
+
+            return command;
         }
 
-        return command;
-    }
+
 
 
 }
