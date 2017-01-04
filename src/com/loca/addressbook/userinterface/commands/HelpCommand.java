@@ -3,23 +3,18 @@ package com.loca.addressbook.userinterface.commands;
 import com.loca.addressbook.exceptions.InvalidCommandParameterException;
 import com.loca.addressbook.userinterface.ConsolePrinter;
 
-import java.util.List;
-
 public class HelpCommand implements Command {
     private static final String NEW_LINE = "\n";
     private static final String TAB = "\t";
     private CommandType commandType = CommandType.HELP;
-    private List<String> parameters;
     private ConsolePrinter consolePrinter;
 
-    public HelpCommand (ConsolePrinter consolePrinter, List<String> parameters) {
-        this.parameters = parameters;
+    public HelpCommand (ConsolePrinter consolePrinter) {
         this.consolePrinter = consolePrinter;
     }
 
     @Override
     public void execute() throws InvalidCommandParameterException {
-        validate();
         String helpText = makeHelpText();
         showHelpText(helpText);
 
@@ -41,10 +36,5 @@ public class HelpCommand implements Command {
         consolePrinter.print(helpText);
     }
 
-    private void validate() throws InvalidCommandParameterException {
-        if (parameters.size() != commandType.getParametersCount()) {
-            throw new InvalidCommandParameterException(commandType, parameters);
-        }
-    }
 
 }
