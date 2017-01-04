@@ -28,7 +28,6 @@ public class ListCommand implements Command {
 
     @Override
     public void execute() throws InvalidCommandParameterException {
-    	validate();
     	listContacts();
     }
 
@@ -55,10 +54,6 @@ public class ListCommand implements Command {
 		return output.toString();
 	}
 
-	private void validate() throws InvalidCommandParameterException {
-		if (parameters.size() != commandType.getParametersCount()) {
-			throw new InvalidCommandParameterException(commandType, parameters);
-		}
+
 	}
    
-}
