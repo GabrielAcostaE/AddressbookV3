@@ -12,22 +12,22 @@ public class Console implements ConsolePrinter {
     }
  
     public void readUserInput() {
-        Scanner scanner = new Scanner(System.in);
-		while (!isQuit) {
-			String userInput = scanner.nextLine();
-			CommandLine commandLine = CommandLine.parse(userInput);
-            inputHandler.handle(commandLine);
-		}
-		scanner.close();
-	}
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                String userInput = scanner.nextLine();
+                CommandLine commandLine = CommandLine.parse(userInput);
+                inputHandler.handle(commandLine);
+            }
+        }
+    }
 
     @Override
     public void print(String output) {
         System.out.println(output);
     }
 
-    public void close() {
+    /*public void close() {
         isQuit = true;
-    }
+    }*/
 
 }

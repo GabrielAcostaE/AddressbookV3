@@ -69,7 +69,8 @@ public class Application {
 	 
 	public void quit() {
 		registryPersister.save();
-		console.close();
+		System.exit(0);
+        /*console.close()*/
 	}
 		
 }
