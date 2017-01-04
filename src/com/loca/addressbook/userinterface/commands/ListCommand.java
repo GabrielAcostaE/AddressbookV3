@@ -1,8 +1,5 @@
 package com.loca.addressbook.userinterface.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.loca.addressbook.exceptions.InvalidCommandParameterException;
 import com.loca.addressbook.registry.Contact;
 import com.loca.addressbook.registry.Registry;
@@ -11,19 +8,20 @@ import com.loca.addressbook.userinterface.ConsolePrinter;
 import com.loca.addressbook.userinterface.ContactFormatter;
 import com.loca.addressbook.userinterface.ContactListSorter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListCommand implements Command {
 	
 	private CommandType commandType = CommandType.LIST;
 	private ConsolePrinter consolePrinter;
 	private Registry registry;
 	private RemoteRegistry remoteRegistry;
-	private List<String> parameters;
 	
 	public ListCommand (ConsolePrinter consolePrinter, Registry registry, RemoteRegistry remoteRegistry, List<String> parameters) {
 		this.consolePrinter = consolePrinter;
 		this.registry = registry;
 		this.remoteRegistry = remoteRegistry;
-		this.parameters = parameters;
 	}
 
     @Override

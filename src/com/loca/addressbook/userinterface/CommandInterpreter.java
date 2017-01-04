@@ -1,13 +1,12 @@
 package com.loca.addressbook.userinterface;
 
 import com.loca.addressbook.Application;
+import com.loca.addressbook.exceptions.InvalidCommandException;
 import com.loca.addressbook.exceptions.InvalidCommandParameterException;
 import com.loca.addressbook.registry.Registry;
 import com.loca.addressbook.remoteregistry.RemoteRegistry;
 import com.loca.addressbook.userinterface.commands.*;
-import com.loca.addressbook.exceptions.InvalidCommandException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommandInterpreter {
@@ -58,9 +57,6 @@ public class CommandInterpreter {
 
     private Command createCommand(CommandType commandType, List<String> parameters) {
         Command command = null;
-
-
-
             switch (commandType) {
                 case ADD:
                     command = new AddContactCommand(consolePrinter, registry, parameters);
@@ -72,7 +68,7 @@ public class CommandInterpreter {
                     command = new DeleteContactCommand(consolePrinter, registry, parameters);
                     break;
                 case HELP:
-                    command = new HelpCommand(consolePrinter, parameters);
+                    command = new HelpCommand(consolePrinter);
                     break;
                 case SEARCH:
                     command = new SearchCommand(consolePrinter, registry, remoteRegistry, parameters);
